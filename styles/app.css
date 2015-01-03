@@ -1,10 +1,11 @@
 .card {
   float: left;
   border: solid 1px black;
-  width: 100px;
+  width: 120px;
   border-radius: 5px;
-  height: 140px;
+  height: 167px;
   margin-right: 20px;
+
 }
 
 .covered {
@@ -12,5 +13,7 @@
 }
 
 .hand {
-  overflow: auto;
+  width:950px;
+  height:200px;
+
 }

@@ -7,6 +7,15 @@ class window.Hand extends Backbone.Collection
 
   hit: ->
     @add(@deck.pop())
+
+    if @findScore() > 21
+      # console.log(@)
+      if @isDealer
+        alert("DEALER BUSTED, YOU WIN!!")
+      else
+        alert("YOU BUSTED, go home you drunk")
+    @
+
     # playerScore +=
 
   hasAce: -> @reduce (memo, card) ->
@@ -24,8 +33,20 @@ class window.Hand extends Backbone.Collection
     [@minScore(), @minScore() + 10 * @hasAce()]
 
   stand: (oppScore)-> #pass in players score
-    console.log(oppScore)
+    @models[0].flip()
+    if @findScore() > oppScore
+      console.log("DEALER WINS :( ")
+    else
+      while @findScore() < 16
+        @hit()
 
+      if @findScore() > oppScore
+        console.log("DEALER WINS :( ")
+      else if @findScore() < oppScore
+        console.log("YOU WIN!!")
+      else
+        console.log("PUSH MO FUCKA")
+      #start dealer AI
     # flip dealer card over
     # check for dealer win
     # if no dealer win
