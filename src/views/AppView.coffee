@@ -8,6 +8,7 @@ class window.AppView extends Backbone.View
   events:
     'click .hit-button': -> @model.get('playerHand').hit()
     'click .stand-button': -> @model.get('dealerHand').stand(@model.get('playerHand').findScore())
+
       # debugger;
       # console.log(@model.get('dealerHand').scores(),@model.get('dealerHand').scores());
       # while @model.get('dealerHand').scores() < 16
@@ -19,6 +20,8 @@ class window.AppView extends Backbone.View
   initialize: ->
 
     @render()
+
+    @
 
   render: ->
     @$el.children().detach()

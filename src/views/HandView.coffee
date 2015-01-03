@@ -7,6 +7,11 @@ class window.HandView extends Backbone.View
 
     @collection.on 'add remove change', => @render()
     @render()
+    @fire()
+    @
+
+
+
 
   render: ->
 
@@ -14,5 +19,19 @@ class window.HandView extends Backbone.View
     @$el.html @template @collection
     @$el.append @collection.map (card) ->
       new CardView(model: card).$el
-    @$('.score').text @collection.scores()[0]
+    @$('.score').text @collection.findScore()
+
+  fire: ->
+    context = @
+
+
+    setTimeout(->
+      context.collection.trigger('checkBlackJack')
+      @
+    , 500)
+    @
+
+
+
+
 

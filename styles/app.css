@@ -15,5 +15,8 @@
 .hand {
   width:950px;
   height:200px;
+}
 
+html{
+  background-color: green;
 }

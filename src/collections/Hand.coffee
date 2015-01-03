@@ -1,11 +1,18 @@
 class window.Hand extends Backbone.Collection
   model: Card
 
-  initialize: (array, @deck, @isDealer) ->
+
+  initialize: (array, @deck, @isDealer, @firstDeal) ->
+    @.on 'checkBlackJack', ->
+      @checkBlackJack()
+      @
+    @
 
   playerScore = 0
 
   hit: ->
+    @firstDeal = false;
+
     @add(@deck.pop())
 
     if @findScore() > 21
@@ -41,9 +48,9 @@ class window.Hand extends Backbone.Collection
         @hit()
 
       if @findScore() > oppScore
-        console.log("DEALER WINS :( ")
+        @lose()
       else if @findScore() < oppScore
-        console.log("YOU WIN!!")
+        @win()
       else
         console.log("PUSH MO FUCKA")
       #start dealer AI
@@ -51,6 +58,13 @@ class window.Hand extends Backbone.Collection
     # check for dealer win
     # if no dealer win
     #   start dealer AI
+
+  win: ->
+    alert("you win")
+
+
+  lose: ->
+    alert("you lose")
 
   findScore: ->
     if @hasAce()
@@ -60,6 +74,11 @@ class window.Hand extends Backbone.Collection
         return @scores()[1]
     else
       return @scores()[0]
+
+  checkBlackJack: ->
+    if(@firstDeal and @findScore() == 21)
+      alert("BLACKJACK!!!");
+      @
     #   if second number > 21   return first number
     #   else return second number
     # else
