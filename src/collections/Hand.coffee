@@ -8,22 +8,15 @@ class window.Hand extends Backbone.Collection
       @
     @
 
-  playerScore = 0
-
   hit: ->
     @firstDeal = false;
-
     @add(@deck.pop())
-
-    if @findScore() > 21
-      # console.log(@)
+    if @checkBusted()
       if @isDealer
-        alert("DEALER BUSTED, YOU WIN!!")
+        @win()
       else
-        alert("YOU BUSTED, go home you drunk")
-    @
+        @lose()
 
-    # playerScore +=
 
   hasAce: -> @reduce (memo, card) ->
     memo or card.get('value') is 1
@@ -39,32 +32,48 @@ class window.Hand extends Backbone.Collection
     # when there is an ace, it offers you two scores - the original score, and score + 10.
     [@minScore(), @minScore() + 10 * @hasAce()]
 
-  stand: (oppScore)-> #pass in players score
-    @models[0].flip()
-    if @findScore() > oppScore
-      console.log("DEALER WINS :( ")
-    else
-      while @findScore() < 16
-        @hit()
+  stand: -> #pass in players score
+    console.log("inside stand")
+    @trigger 'stand', @
 
-      if @findScore() > oppScore
-        @lose()
-      else if @findScore() < oppScore
-        @win()
-      else
-        console.log("PUSH MO FUCKA")
-      #start dealer AI
-    # flip dealer card over
-    # check for dealer win
-    # if no dealer win
-    #   start dealer AI
+
+
+  playToWin: ()->
+    console.log("hello")
+    @first().flip()
+    busted = false
+    while @findScore() < 16
+      @hit()
+      if @checkBusted()
+        busted = true
+    if !busted
+      @trigger 'stand2'
+    @
+
+  dealerBust: ->
+    @win()
+
+  playerBust: ->
+    @lose()
+
+  checkBusted: ->
+    if @findScore() > 21
+      return true
+    else
+      return false
+
+
 
   win: ->
-    alert("you win")
+    setTimeout(->
+      alert("YOU WIN!")
+    ,500)
 
 
   lose: ->
-    alert("you lose")
+    setTimeout(->
+      alert("YOU LOSE!")
+    ,500)
 
   findScore: ->
     if @hasAce()
@@ -79,10 +88,7 @@ class window.Hand extends Backbone.Collection
     if(@firstDeal and @findScore() == 21)
       alert("BLACKJACK!!!");
       @
-    #   if second number > 21   return first number
-    #   else return second number
-    # else
-    # return first number
+
 
 
 

@@ -1,20 +1,16 @@
 class window.AppView extends Backbone.View
   template: _.template '
-    <button class="hit-button">Hit</button> <button class="stand-button">Stand</button>
+    <button class="hit-button">Hit</button> <button class="stand-button">Stand</button> <button class="playAgain-button">Play Again</button>
     <div class="player-hand-container"></div>
     <div class="dealer-hand-container"></div>
   '
 
   events:
     'click .hit-button': -> @model.get('playerHand').hit()
-    'click .stand-button': -> @model.get('dealerHand').stand(@model.get('playerHand').findScore())
+    'click .stand-button': -> @model.get('playerHand').stand()
+    'click .playAgain-button': -> location.reload()
 
-      # debugger;
-      # console.log(@model.get('dealerHand').scores(),@model.get('dealerHand').scores());
-      # while @model.get('dealerHand').scores() < 16
-      #   console.log('inside while loop')
-      #   @model.get('dealerHand').hit()
-      # @model.get('dealerHand')
+
 
 
   initialize: ->
